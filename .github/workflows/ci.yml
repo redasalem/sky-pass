@@ -17,10 +17,7 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm ci
-        working-directory: ./
       - name: Build Next.js
         run: npm run build
-        working-directory: ./sky-pass
       - name: Typecheck
         run: npx tsc --noEmit
-        working-directory: ./sky-pass
