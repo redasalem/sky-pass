@@ -1,8 +1,10 @@
 import { createHash, randomUUID } from "node:crypto";
+import { NotFoundError, ConflictError, ExternalServiceError } from "./errors";
 import Stripe from "stripe";
 import { calculateDynamicPrice } from "@/lib/pricing";
 import { getFlightById } from "@/lib/sanity.queries";
 import { serverClient } from "@/lib/sanity.server";
+import type { SanityDocument } from "@sanity/client";
 import type { BookingDocument, BookingSession, PassengerDetails } from "@/types";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -42,11 +44,17 @@ export async function createStripeCheckoutSession(input: {
   const flight = await getFlightById(input.flightId);
 
   if (!flight) {
-    throw new Error("Flight not found.");
+    // explicit domain error for missing flight
+    throw new NotFoundError("Flight not found.");
   }
 
-  if (flight.seatsAvailable < input.passengers) {
-    throw new Error("Not enough seats are available for this booking.");
+  // Ensure available seats account for currently held seats
+  // seatsHeld may not be declared on the Flight type in TS defs; access defensively
+  const seatsHeld = (flight as any).seatsHeld || 0;
+  const availableForBooking = (flight.seatsAvailable || 0) - seatsHeld;
+  if (availableForBooking < input.passengers) {
+    // Mapped to 409 Conflict by callers
+    throw new ConflictError("Not enough seats are available for this booking.");
   }
 
   const pricing = calculateDynamicPrice(
@@ -63,6 +71,21 @@ export async function createStripeCheckoutSession(input: {
   };
 
   const bookingReference = createBookingReference();
+
+  // Create a seat hold in Sanity to reduce race conditions. This increments seatsHeld on the flight.
+  try {
+    if (serverClient) {
+      // Use patch with ifRevisionId/transactional logic is not available here, but
+      // Sanity's patch inc is atomic on the document.
+      await serverClient.patch(flight._id).inc({ seatsHeld: input.passengers }).commit({ returnDocuments: false });
+    } else {
+      // If serverClient is not configured, fail fast to avoid oversell
+      throw new Error("Sanity is not configured for seat holds");
+    }
+  } catch (err) {
+    // Non-fatal: if we couldn't hold seats, abort instead of allowing oversell
+    throw new ExternalServiceError("Failed to reserve seats. Please try again.");
+  }
 
   const session = await stripe.checkout.sessions.create(
     {
@@ -90,6 +113,8 @@ export async function createStripeCheckoutSession(input: {
         departureTime: flight.departureTime,
         passengers: String(input.passengers),
         userId: bookingSession.userId,
+        // attach hold info so webhook can reconcile seatsHeld
+        holdPassengers: String(input.passengers),
         passengerFirstName: input.passenger.firstName,
         passengerLastName: input.passenger.lastName,
         passengerEmail: input.passenger.email,
@@ -144,15 +169,20 @@ export async function persistCompletedBooking(input: {
     createdAt: new Date().toISOString(),
   };
 
-  await serverClient.createOrReplace(booking);
+  // Use transaction: create booking if not exists, decrement seatsAvailable and decrement seatsHeld
+  const transaction = serverClient.transaction();
 
+  // createIfNotExists for booking to provide idempotency by stripeSessionId
+  transaction.createIfNotExists(booking as unknown as SanityDocument);
+
+  // patch flight atomically
   const flight = await getFlightById(input.flightId);
   if (flight) {
-    await serverClient
-      .patch(input.flightId)
-      .set({ seatsAvailable: Math.max(0, flight.seatsAvailable - input.passengers) })
-      .commit();
+    // decrement seatsAvailable and seatsHeld atomically; use negative inc to decrement
+    transaction.patch(input.flightId, { inc: { seatsAvailable: -input.passengers, seatsHeld: -input.passengers } });
   }
+
+  await transaction.commit();
 
   return booking;
 }

@@ -65,6 +65,13 @@ export default defineType({
       validation: (r) => r.required().min(0),
     }),
     defineField({
+      name: "seatsHeld",
+      title: "Seats Held",
+      type: "number",
+      initialValue: 0,
+      validation: (r) => r.required().min(0),
+    }),
+    defineField({
       name: "flightClass",
       title: "Class",
       type: "array",

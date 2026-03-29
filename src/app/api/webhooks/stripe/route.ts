@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import {
-  markBookingEmailSent,
-  persistCompletedBooking,
-} from "@/lib/booking";
+import { markBookingEmailSent, persistCompletedBooking } from "@/lib/booking";
+import { requireServerClient, serverClient } from "@/lib/sanity.server";
 import { sendBookingConfirmation } from "@/lib/email";
 
 const stripe = process.env.STRIPE_SECRET_KEY
@@ -46,16 +44,35 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  // In-memory dedupe fast-path
   if (processedEvents.has(event.id)) {
     return NextResponse.json({ received: true, duplicate: true });
   }
 
+  // Durable dedupe using Sanity
+  try {
+    const client = serverClient || requireServerClient();
+    const existing = await client.fetch(
+      `count(*[_type == "webhookEvent" && eventId == $id])`,
+      { id: event.id }
+    );
+    if (existing > 0) {
+      processedEvents.add(event.id);
+      return NextResponse.json({ received: true, duplicate: true });
+    }
+  } catch (err) {
+    // If Sanity is misconfigured, fallback to processing but log the error server-side
+    console.error("Sanity dedupe check failed:", err);
+  }
+
+  // mark in-memory as processed immediately to prevent concurrent handling in this instance
   processedEvents.add(event.id);
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const metadata = session.metadata || {};
 
+    // Persist booking and then record the webhook event to prevent duplicates
     await persistCompletedBooking({
       stripeSessionId: session.id,
       stripeEventId: event.id,
@@ -73,6 +90,22 @@ export async function POST(request: NextRequest) {
       totalPriceInCents: Number(metadata.totalPriceInCents) || 0,
     });
 
+    try {
+      const client = serverClient || requireServerClient();
+      // create a webhookEvent doc to mark this event as processed
+      await client.createIfNotExists({
+        _id: `webhookEvent.${event.id}`,
+        _type: "webhookEvent",
+        eventId: event.id,
+        type: event.type,
+        receivedAt: new Date().toISOString(),
+        payload: {},
+      });
+    } catch (err) {
+      // Don't fail the webhook if recording fails - log for investigation
+      console.error("Failed to record webhook event in Sanity:", err);
+    }
+
     if (metadata.passengerEmail) {
       try {
         await sendEmailWithRetry({
@@ -89,6 +122,20 @@ export async function POST(request: NextRequest) {
         await markBookingEmailSent(session.id);
       } catch {
         /* Retry is handled above; leave booking record unsent if still failing. */
+      }
+    }
+  } else if (event.type === "checkout.session.expired" || event.type === "checkout.session.async_payment_failed") {
+    // release any held seats if we have hold info
+    const session = event.data.object as Stripe.Checkout.Session;
+    const metadata = session.metadata || {};
+    const hold = Number(metadata.holdPassengers) || 0;
+    const flightId = metadata.flightId;
+
+    if (hold > 0 && flightId && serverClient) {
+      try {
+        await serverClient.patch(flightId).inc({ seatsHeld: -hold }).commit();
+      } catch (err) {
+        // best-effort: don't fail the webhook for release errors
       }
     }
   }

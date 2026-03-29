@@ -27,11 +27,16 @@ export async function sendBookingConfirmation({
     return null;
   }
 
-  const { data, error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || "Sky-Pass <noreply@skypass.com>",
-    to: [to],
-    subject: "Your Sky-Pass booking is confirmed",
-    html: `
+  // Implement a small retry with exponential backoff for transient errors
+  let lastError: unknown;
+  const maxAttempts = 3;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const { data, error } = await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || "Sky-Pass <noreply@skypass.com>",
+        to: [to],
+        subject: "Your Sky-Pass booking is confirmed",
+        html: `
       <!DOCTYPE html>
       <html>
       <head>
@@ -133,6 +138,18 @@ export async function sendBookingConfirmation({
     `,
   });
 
-  if (error) throw error;
-  return data;
+      if (error) throw error;
+      return data;
+    } catch (err) {
+      lastError = err;
+      // exponential backoff before retrying
+      if (attempt < maxAttempts) {
+        const wait = 100 * Math.pow(2, attempt - 1);
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((res) => setTimeout(res, wait));
+        continue;
+      }
+      throw lastError;
+    }
+  }
 }
