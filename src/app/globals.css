@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --sky-red: #C10016;
+  --sky-dark: #1E1E1E;
+  --sky-light: #F5F5F5;
+  --sky-white: #FFFFFF;
+}
+
+body {
+  background: var(--sky-light);
+  color: var(--sky-dark);
+}
+
+.app-shell {
+  min-height: 100vh;
+  background: var(--sky-light);
+}
+
+.section-shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.5rem;
+}
+
+.primary-button {
+  border-radius: 9999px;
+  background: var(--sky-red);
+  color: var(--sky-white);
+  transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.primary-button:hover {
+  background: #a00012;
+}
+
+.surface-card {
+  border-radius: 1.5rem;
+  background: var(--sky-white);
+  box-shadow: 0 16px 40px rgba(30, 30, 30, 0.08);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sky-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sky-red);
+}
+
+/* Skeleton loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--sky-light) 25%,
+    #e0e0e0 50%,
+    var(--sky-light) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Focus visible */
+*:focus-visible {
+  outline: 2px solid var(--sky-red);
+  outline-offset: 2px;
+}
