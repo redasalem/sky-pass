@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { calculateDynamicPrice } from "@/lib/pricing";
 import { getFlightById } from "@/lib/sanity.queries";
 import { serverClient } from "@/lib/sanity.server";
+import { ValidationError } from "@/lib/errors";
 import type { SanityDocument } from "@sanity/client";
 import type { BookingDocument, BookingSession, PassengerDetails } from "@/types";
 

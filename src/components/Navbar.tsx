@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Plane } from "lucide-react";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 const NAV_LINKS = [
   { label: "Flights", href: "/flights" },
   { label: "Destinations", href: "/destinations" },
-  { label: "My Bookings", href: "/booking" },
 ];
 
 export default function Navbar() {
@@ -16,6 +16,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
@@ -93,9 +94,18 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-4 md:flex">
-          <Link href="/booking" className="primary-button px-6 py-2.5 text-sm font-semibold">
-            Sign In
-          </Link>
+          {!isSignedIn ? (
+            <Link href="/sign-in" className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white">
+              Sign In
+            </Link>
+          ) : (
+            <div className="flex items-center gap-3">
+              <Link href="/my-bookings" className="text-sm font-medium text-[#1E1E1E] hover:text-[#C10016]">
+                My Bookings
+              </Link>
+              <UserButton afterSignOutUrl="/" />
+            </div>
+          )}
         </div>
 
         <button

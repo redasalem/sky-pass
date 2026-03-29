@@ -12,11 +12,20 @@ export async function checkoutFlight(input: {
 }) {
   const { userId } = await auth();
 
+  if (!userId) {
+    // Server Actions run on server — return a 401-style error by throwing
+    const err = new Error("Authentication required");
+    // @ts-ignore attach status for callers
+    (err as any).status = 401;
+    throw err;
+  }
+
+  // Always use server-provided userId
   return createStripeCheckoutSession({
     flightId: input.flightId,
     passengers: input.passengers,
     passenger: input.passenger,
-    userId: userId || "guest",
+    userId: userId,
     origin: input.origin,
   });
 }

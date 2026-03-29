@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -20,11 +21,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <div className="app-shell">
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </div>
+        {
+          process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ? (
+            <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+              <div className="app-shell">
+                <Navbar />
+                <main className="min-h-screen">{children}</main>
+                <Footer />
+              </div>
+            </ClerkProvider>
+          ) : (
+            // If no Clerk publishable key is present during build, render app without ClerkProvider.
+            <div className="app-shell">
+              <Navbar />
+              <main className="min-h-screen">{children}</main>
+              <Footer />
+            </div>
+          )
+        }
       </body>
     </html>
   );

@@ -78,6 +78,11 @@ export default function BookingFlow() {
       const data = await response.json();
 
       if (!response.ok) {
+        // If API responds with authentication error, redirect to sign-in
+        if (response.status === 401) {
+          window.location.href = "/sign-in";
+          return;
+        }
         throw new Error(data.error || "Checkout failed.");
       }
 
