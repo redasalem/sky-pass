@@ -27,11 +27,14 @@ export async function searchFlights(
   destination: string,
   date?: string
 ): Promise<Flight[]> {
+  const hasDate = Boolean(date);
+  const dateQuery = hasDate ? `&& departureTime >= $startOfDay && departureTime <= $endOfDay` : ``;
+  
   return client.fetch(
     `*[_type == "flight"
       && lower(origin) match lower($origin) + "*"
       && lower(destination) match lower($destination) + "*"
-      && (!defined($startOfDay) || (departureTime >= $startOfDay && departureTime <= $endOfDay))
+      ${dateQuery}
     ] | order(departureTime asc) {
       _id, airlineName, flightNumber, priceInCents,
       origin, destination, departureTime, duration,
@@ -40,8 +43,10 @@ export async function searchFlights(
     {
       origin,
       destination,
-      startOfDay: date ? `${date}T00:00:00Z` : null,
-      endOfDay: date ? `${date}T23:59:59Z` : null,
+      ...(hasDate && {
+        startOfDay: `${date}T00:00:00Z`,
+        endOfDay: `${date}T23:59:59Z`,
+      }),
     }
   );
 }

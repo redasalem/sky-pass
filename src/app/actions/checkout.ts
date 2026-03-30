@@ -8,6 +8,7 @@ export async function checkoutFlight(input: {
   flightId: string;
   passengers: number;
   passenger: PassengerDetails;
+  cabinClass?: "Economy" | "Business" | "First";
   origin: string;
 }) {
   const { userId } = await auth();
@@ -25,6 +26,7 @@ export async function checkoutFlight(input: {
     flightId: input.flightId,
     passengers: input.passengers,
     passenger: input.passenger,
+    cabinClass: input.cabinClass || "Economy",
     userId: userId,
     origin: input.origin,
   });

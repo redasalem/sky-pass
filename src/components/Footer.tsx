@@ -30,16 +30,16 @@ const FOOTER_LINKS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1E1E1E] text-gray-400">
+    <footer className="bg-[#0A0A0A] border-t border-[#2A2A2A] text-gray-400">
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-4">
           {/* Brand */}
           <div>
-            <Link href="/" className="mb-4 flex items-center gap-2">
-              <Plane className="h-6 w-6 text-[#C10016]" />
-              <span className="text-xl font-bold text-white">Sky-Pass</span>
+            <Link href="/" className="mb-4 flex items-center gap-2 group">
+              <Plane className="h-6 w-6 text-[#C10016] transition-transform group-hover:scale-110" />
+              <span className="text-xl font-black text-white tracking-tight">SKY-PASS</span>
             </Link>
-            <p className="mb-6 text-sm leading-relaxed">
+            <p className="mb-6 text-sm font-medium leading-relaxed text-gray-400">
               Redefining air travel with premium service, unmatched comfort, and
               destinations that inspire.
             </p>
@@ -48,7 +48,7 @@ export default function Footer() {
                 <a
                   key={i}
                   href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-800 transition-colors hover:bg-[#C10016]"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1A1A1A] border border-[#2A2A2A] transition-colors hover:bg-[#C10016] hover:border-[#C10016]"
                 >
                   <Icon className="h-4 w-4 text-white" />
                 </a>
@@ -59,7 +59,7 @@ export default function Footer() {
           {/* Link Columns */}
           {FOOTER_LINKS.map((col) => (
             <div key={col.title}>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
+              <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-[#C10016]">
                 {col.title}
               </h3>
               <ul className="space-y-3">
@@ -67,7 +67,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm transition-colors hover:text-white"
+                      className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
                     >
                       {link.label}
                     </Link>
@@ -79,27 +79,30 @@ export default function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-6 rounded-2xl bg-[#2a2a2a] p-8 md:flex-row">
-          <div className="flex items-center gap-3">
-            <Mail className="h-5 w-5 text-[#C10016]" />
+        <div className="mt-16 flex flex-col items-center justify-between gap-6 rounded-3xl bg-[#1A1A1A] border border-[#2A2A2A] p-8 md:flex-row relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#C10016]/5 rounded-full blur-3xl" />
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#C10016]/10">
+              <Mail className="h-5 w-5 text-[#C10016]" />
+            </div>
             <div>
-              <h4 className="text-sm font-semibold text-white">
-                Stay updated with deals
+              <h4 className="text-base font-bold text-white">
+                Stay updated with premium offers
               </h4>
-              <p className="text-xs text-gray-400">
-                Subscribe for exclusive flight offers
+              <p className="text-sm font-medium text-gray-400">
+                Subscribe for exclusive flight deals and news.
               </p>
             </div>
           </div>
-          <div className="flex w-full max-w-md gap-3">
+          <div className="flex w-full max-w-md gap-3 relative z-10">
             <input
               type="email"
               placeholder="your@email.com"
-              className="flex-1 rounded-full bg-gray-700 px-5 py-2.5 text-sm text-white placeholder-gray-500 outline-none focus:ring-2 focus:ring-[#C10016]"
+              className="flex-1 rounded-full bg-[#0A0A0A] border border-[#2A2A2A] px-6 py-3 text-sm font-medium text-white placeholder-gray-500 outline-none focus:border-[#C10016] transition-colors"
             />
             <button
               type="button"
-              className="rounded-full bg-[#C10016] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#a00012]"
+              className="primary-button text-sm font-bold"
             >
               Subscribe
             </button>
@@ -107,14 +110,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 md:flex-row">
-          <p className="text-xs">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#2A2A2A] pt-8 md:flex-row">
+          <p className="text-sm font-medium text-gray-500">
             © {new Date().getFullYear()} Sky-Pass. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="#" className="text-xs hover:text-white">Terms</Link>
-            <Link href="#" className="text-xs hover:text-white">Privacy</Link>
-            <Link href="#" className="text-xs hover:text-white">Cookies</Link>
+            <Link href="#" className="text-sm font-medium text-gray-500 hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="#" className="text-sm font-medium text-gray-500 hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#" className="text-sm font-medium text-gray-500 hover:text-white transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ export default async function BookingPage() {
   }
 
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F5F5F5] pt-28" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A] pt-28" />}>
       <BookingFlow />
     </Suspense>
   );

@@ -72,10 +72,10 @@ export default function SearchWidget() {
         <button
           type="button"
           onClick={() => setTripType("round-trip")}
-          className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
+          className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
             tripType === "round-trip"
-              ? "bg-[#C10016] text-white shadow-lg"
-              : "bg-white/20 text-white hover:bg-white/30"
+              ? "bg-[#C10016] text-white shadow-lg shadow-red-900/30"
+              : "bg-white/10 text-white hover:bg-white/20 border border-transparent hover:border-white/30"
           }`}
         >
           Round-trip
@@ -83,10 +83,10 @@ export default function SearchWidget() {
         <button
           type="button"
           onClick={() => setTripType("one-way")}
-          className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
+          className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
             tripType === "one-way"
-              ? "bg-[#C10016] text-white shadow-lg"
-              : "bg-white/20 text-white hover:bg-white/30"
+              ? "bg-[#C10016] text-white shadow-lg shadow-red-900/30"
+              : "bg-white/10 text-white hover:bg-white/20 border border-transparent hover:border-white/30"
           }`}
         >
           One-way
@@ -96,15 +96,15 @@ export default function SearchWidget() {
           onChange={(event) =>
             setCabinClass(event.target.value as "Economy" | "Business" | "First")
           }
-          className="rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white outline-none ring-1 ring-white/20"
+          className="rounded-full bg-white/10 px-4 py-2 text-sm font-semibold text-white outline-none border border-transparent hover:border-white/30 transition-all cursor-pointer"
         >
-          <option value="Economy" className="text-[#1E1E1E]">
+          <option value="Economy" className="text-[#0A0A0A]">
             Economy
           </option>
-          <option value="Business" className="text-[#1E1E1E]">
+          <option value="Business" className="text-[#0A0A0A]">
             Business
           </option>
-          <option value="First" className="text-[#1E1E1E]">
+          <option value="First" className="text-[#0A0A0A]">
             First
           </option>
         </select>
@@ -112,7 +112,7 @@ export default function SearchWidget() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
         <div className="relative">
-          <label className="mb-1 block text-xs font-medium text-white/70">From</label>
+          <label className="mb-1 block text-xs font-medium text-gray-300">From</label>
           <input
             type="text"
             value={origin}
@@ -123,10 +123,10 @@ export default function SearchWidget() {
             onBlur={() => setTimeout(() => setOriginSuggestions([]), 150)}
             placeholder="Istanbul"
             required
-            className="w-full rounded-xl bg-white/90 px-4 py-3 text-sm text-[#1E1E1E] placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#C10016]"
+            className="w-full rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] px-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-[#C10016] transition-colors"
           />
           {originSuggestions.length > 0 && (
-            <ul className="absolute left-0 right-0 top-full z-20 mt-1 max-h-40 overflow-auto rounded-xl bg-white shadow-lg">
+            <ul className="absolute left-0 right-0 top-full z-20 mt-1 max-h-40 overflow-auto rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] shadow-xl">
               {originSuggestions.map((city) => (
                 <li
                   key={city}
@@ -134,7 +134,7 @@ export default function SearchWidget() {
                     setOrigin(city);
                     setOriginSuggestions([]);
                   }}
-                  className="cursor-pointer px-4 py-2 text-sm text-[#1E1E1E] hover:bg-[#F5F5F5]"
+                  className="cursor-pointer px-4 py-2 text-sm text-gray-300 hover:bg-[#2A2A2A] hover:text-white transition-colors"
                 >
                   {city}
                 </li>
@@ -144,7 +144,7 @@ export default function SearchWidget() {
         </div>
 
         <div className="relative">
-          <label className="mb-1 block text-xs font-medium text-white/70">To</label>
+          <label className="mb-1 block text-xs font-medium text-gray-300">To</label>
           <div className="relative">
             <input
               type="text"
@@ -156,7 +156,7 @@ export default function SearchWidget() {
               onBlur={() => setTimeout(() => setDestSuggestions([]), 150)}
               placeholder="London"
               required
-              className="w-full rounded-xl bg-white/90 px-4 py-3 pr-12 text-sm text-[#1E1E1E] placeholder-gray-400 outline-none focus:ring-2 focus:ring-[#C10016]"
+              className="w-full rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] px-4 py-3 pr-12 text-sm text-white placeholder-gray-500 outline-none focus:border-[#C10016] transition-colors"
             />
             <button
               type="button"
@@ -164,14 +164,14 @@ export default function SearchWidget() {
                 setOrigin(destination);
                 setDestination(origin);
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-[#F5F5F5] p-1.5 shadow-sm transition-transform hover:rotate-180"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-[#2A2A2A] p-1.5 shadow-sm transition-transform hover:rotate-180 hover:bg-[#333]"
               aria-label="Swap cities"
             >
-              <ArrowRightLeft className="h-3.5 w-3.5 text-[#C10016]" />
+              <ArrowRightLeft className="h-3.5 w-3.5 text-gray-300" />
             </button>
           </div>
           {destSuggestions.length > 0 && (
-            <ul className="absolute left-0 right-0 top-full z-20 mt-1 max-h-40 overflow-auto rounded-xl bg-white shadow-lg">
+            <ul className="absolute left-0 right-0 top-full z-20 mt-1 max-h-40 overflow-auto rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] shadow-xl">
               {destSuggestions.map((city) => (
                 <li
                   key={city}
@@ -179,7 +179,7 @@ export default function SearchWidget() {
                     setDestination(city);
                     setDestSuggestions([]);
                   }}
-                  className="cursor-pointer px-4 py-2 text-sm text-[#1E1E1E] hover:bg-[#F5F5F5]"
+                  className="cursor-pointer px-4 py-2 text-sm text-gray-300 hover:bg-[#2A2A2A] hover:text-white transition-colors"
                 >
                   {city}
                 </li>
@@ -189,7 +189,7 @@ export default function SearchWidget() {
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-white/70">
+          <label className="mb-1 block text-xs font-medium text-gray-300">
             <CalendarDays className="mr-1 inline h-3.5 w-3.5" />
             Departure
           </label>
@@ -198,42 +198,42 @@ export default function SearchWidget() {
             value={departureDate}
             onChange={(event) => setDepartureDate(event.target.value)}
             required
-            className="w-full rounded-xl bg-white/90 px-4 py-3 text-sm text-[#1E1E1E] outline-none focus:ring-2 focus:ring-[#C10016]"
+            className="w-full rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] px-4 py-3 text-sm text-white outline-none focus:border-[#C10016] transition-colors [color-scheme:dark]"
           />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs font-medium text-white/70">Return</label>
+          <label className="mb-1 block text-xs font-medium text-gray-300">Return</label>
           <input
             type="date"
             value={returnDate}
             onChange={(event) => setReturnDate(event.target.value)}
             disabled={tripType !== "round-trip"}
-            className="w-full rounded-xl bg-white/90 px-4 py-3 text-sm text-[#1E1E1E] outline-none focus:ring-2 focus:ring-[#C10016] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] px-4 py-3 text-sm text-white outline-none focus:border-[#C10016] transition-colors disabled:cursor-not-allowed disabled:opacity-30 [color-scheme:dark]"
           />
         </div>
 
         <div className="relative">
-          <label className="mb-1 block text-xs font-medium text-white/70">
+          <label className="mb-1 block text-xs font-medium text-gray-300">
             <Users className="mr-1 inline h-3.5 w-3.5" />
             Passengers
           </label>
           <button
             type="button"
             onClick={() => setShowPassengers((current) => !current)}
-            className="w-full rounded-xl bg-white/90 px-4 py-3 text-left text-sm text-[#1E1E1E] outline-none focus:ring-2 focus:ring-[#C10016]"
+            className="w-full rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] px-4 py-3 text-left text-sm text-white outline-none focus:border-[#C10016] transition-colors"
           >
             {totalPassengers} Passenger{totalPassengers > 1 ? "s" : ""}
           </button>
           {showPassengers && (
-            <div className="absolute left-0 right-0 top-full z-20 mt-1 space-y-3 rounded-xl bg-white p-4 shadow-lg">
+            <div className="absolute left-0 right-0 top-full z-20 mt-1 space-y-3 rounded-xl bg-[#1A1A1A] border border-[#2A2A2A] p-4 shadow-xl">
               {[
                 { label: "Adults", value: adults, set: setAdults, min: 1 },
                 { label: "Children", value: children, set: setChildren, min: 0 },
                 { label: "Infants", value: infants, set: setInfants, min: 0 },
               ].map((passengerGroup) => (
                 <div key={passengerGroup.label} className="flex items-center justify-between">
-                  <span className="text-sm text-[#1E1E1E]">{passengerGroup.label}</span>
+                  <span className="text-sm font-medium text-gray-300">{passengerGroup.label}</span>
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
@@ -242,17 +242,17 @@ export default function SearchWidget() {
                           Math.max(passengerGroup.min, passengerGroup.value - 1)
                         )
                       }
-                      className="flex h-7 w-7 items-center justify-center rounded-full border text-[#1E1E1E] transition-colors hover:border-[#C10016]"
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-[#2A2A2A] bg-[#0A0A0A] text-white transition-colors hover:border-[#C10016] hover:text-[#C10016]"
                     >
                       -
                     </button>
-                    <span className="w-5 text-center text-sm font-medium text-[#1E1E1E]">
+                    <span className="w-5 text-center text-sm font-semibold text-white">
                       {passengerGroup.value}
                     </span>
                     <button
                       type="button"
                       onClick={() => passengerGroup.set(passengerGroup.value + 1)}
-                      className="flex h-7 w-7 items-center justify-center rounded-full border text-[#1E1E1E] transition-colors hover:border-[#C10016]"
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-[#2A2A2A] bg-[#0A0A0A] text-white transition-colors hover:border-[#C10016] hover:text-[#C10016]"
                     >
                       +
                     </button>
@@ -267,7 +267,7 @@ export default function SearchWidget() {
       <button
         type="button"
         onClick={handleSearch}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#C10016] py-3.5 text-sm font-semibold text-white shadow-xl transition-all hover:bg-[#a00012] hover:shadow-2xl"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#C10016] py-3.5 text-sm font-bold text-white shadow-lg shadow-red-900/30 transition-all hover:bg-[#A0001F]"
       >
         <Search className="h-4 w-4" />
         Search Flights

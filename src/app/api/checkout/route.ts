@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
       flightId?: string;
       passengers?: number;
       passenger?: PassengerDetails;
+      cabinClass?: "Economy" | "Business" | "First";
     };
 
     // Validate request body and return 400 for client errors
@@ -33,6 +34,7 @@ export async function POST(request: NextRequest) {
       flightId: body.flightId,
       passengers: body.passengers,
       passenger: body.passenger,
+      cabinClass: body.cabinClass || "Economy",
       userId: userId,
       origin: request.nextUrl.origin,
     });

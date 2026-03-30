@@ -5,7 +5,7 @@ const TIERS = [
   {
     name: "Classic",
     icon: Star,
-    color: "from-gray-600 to-gray-800",
+    color: "from-gray-700 to-gray-900",
     benefits: [
       "Earn 1 mile per $1 spent",
       "Priority waitlist",
@@ -43,17 +43,18 @@ const TIERS = [
 
 export default function LoyaltySection() {
   return (
-    <section className="bg-[#1E1E1E] py-24">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-[#0A0A0A] py-24 relative overflow-hidden text-white border-y border-[#2A2A2A]">
+      <div className="absolute top-0 right-0 h-[800px] w-[800px] rounded-full bg-[#C10016]/5 blur-3xl pointer-events-none" />
+      <div className="mx-auto max-w-7xl px-6 relative z-10">
         {/* Header */}
         <div className="mb-16 text-center">
-          <span className="mb-4 inline-block rounded-full bg-[#C10016]/20 px-4 py-1.5 text-xs font-semibold tracking-wider text-[#C10016] uppercase">
+          <span className="mb-4 inline-block rounded-full bg-[#C10016]/10 border border-[#C10016]/30 px-4 py-1.5 text-xs font-bold tracking-widest text-[#C10016] uppercase">
             Loyalty Program
           </span>
-          <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl">
+          <h2 className="mb-6 text-4xl font-black md:text-5xl">
             Miles &amp; Rewards
           </h2>
-          <p className="mx-auto max-w-2xl text-gray-400">
+          <p className="mx-auto max-w-2xl text-lg font-medium text-gray-400">
             Elevate every journey. Earn miles with every flight and unlock
             exclusive privileges as you rise through our membership tiers.
           </p>
@@ -66,44 +67,46 @@ export default function LoyaltySection() {
             return (
               <div
                 key={tier.name}
-                className={`relative rounded-2xl border transition-transform duration-300 hover:-translate-y-2 ${
+                className={`relative rounded-3xl border transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
                   tier.featured
-                    ? "border-[#C10016] bg-[#2a2a2a] shadow-xl shadow-[#C10016]/15"
-                    : "border-gray-700 bg-[#2a2a2a]"
+                    ? "border-[#C10016] bg-[#1A1A1A] shadow-xl shadow-[#C10016]/20"
+                    : "border-[#2A2A2A] bg-[#1A1A1A] hover:border-[#4A4A4A]"
                 }`}
               >
                 {tier.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#C10016] px-4 py-1 text-xs font-bold text-white">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-[#C10016] px-6 py-1.5 text-xs font-bold text-white shadow-lg tracking-wider uppercase">
                     Most Popular
                   </div>
                 )}
 
-                <div className="p-8">
+                <div className="p-8 flex flex-col h-full">
                   <div
-                    className={`mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${tier.color}`}
+                    className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br shadow-inner ${tier.color}`}
                   >
-                    <Icon className="h-6 w-6 text-white" />
+                    <Icon className="h-8 w-8 text-white drop-shadow-md" />
                   </div>
 
-                  <h3 className="mb-6 text-2xl font-bold text-white">
+                  <h3 className="mb-6 text-3xl font-black">
                     {tier.name}
                   </h3>
 
-                  <ul className="mb-8 space-y-3">
+                  <ul className="mb-10 space-y-4 flex-1">
                     {tier.benefits.map((b, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#C10016]" />
-                        <span className="text-sm text-gray-300">{b}</span>
+                        <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#C10016]/20">
+                           <Check className="h-3.5 w-3.5 flex-shrink-0 text-[#C10016]" />
+                        </div>
+                        <span className="text-sm font-medium text-gray-300 leading-relaxed">{b}</span>
                       </li>
                     ))}
                   </ul>
 
                   <Link
-                    href="/booking"
-                    className={`w-full rounded-full py-3 text-sm font-semibold transition-colors ${
+                    href="/sign-up"
+                    className={`w-full block text-center rounded-full py-3.5 text-sm font-bold transition-all ${
                       tier.featured
-                        ? "bg-[#C10016] text-white hover:bg-[#a00012]"
-                        : "border border-gray-600 text-white hover:border-[#C10016] hover:text-[#C10016]"
+                        ? "bg-[#C10016] text-white hover:bg-[#a00012] shadow-lg shadow-red-900/40"
+                        : "bg-[#2A2A2A] text-white hover:bg-[#333]"
                     }`}
                   >
                     Join Now

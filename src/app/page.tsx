@@ -37,18 +37,18 @@ export default async function HomePage() {
   }
 
   return (
-    <>
+    <div className="bg-[#0A0A0A]">
       {/* Hero */}
       <Hero />
 
       {/* Features */}
-      <section className="bg-white py-24">
+      <section className="bg-[#0A0A0A] py-32 border-b border-[#2A2A2A]">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-16 text-center">
-            <span className="mb-4 inline-block rounded-full bg-[#C10016]/10 px-4 py-1.5 text-xs font-semibold tracking-wider text-[#C10016] uppercase">
+          <div className="mb-20 text-center">
+            <span className="mb-4 inline-block rounded-full bg-[#C10016]/10 border border-[#C10016]/30 px-4 py-1.5 text-xs font-bold tracking-widest text-[#C10016] uppercase">
               Why Choose Us
             </span>
-            <h2 className="text-4xl font-bold text-[#1E1E1E] md:text-5xl">
+            <h2 className="text-4xl font-black text-white md:text-5xl tracking-tight">
               The Sky-Pass Experience
             </h2>
           </div>
@@ -59,13 +59,13 @@ export default async function HomePage() {
               return (
                 <div
                   key={f.title}
-                  className="group rounded-2xl border border-gray-100 bg-white p-8 text-center transition-all duration-300 hover:border-[#C10016]/20 hover:shadow-xl"
+                  className="group rounded-3xl border border-[#2A2A2A] bg-[#1A1A1A] p-8 text-center transition-all duration-300 hover:border-[#C10016]/50 hover:shadow-2xl hover:-translate-y-2"
                 >
-                  <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#C10016]/10 transition-colors group-hover:bg-[#C10016]">
-                    <Icon className="h-6 w-6 text-[#C10016] transition-colors group-hover:text-white" />
+                  <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[#2A2A2A] transition-colors group-hover:bg-[#C10016]/10">
+                    <Icon className="h-7 w-7 text-[#C10016]" />
                   </div>
-                  <h3 className="mb-2 text-lg font-bold text-[#1E1E1E]">{f.title}</h3>
-                  <p className="text-sm leading-relaxed text-gray-500">{f.desc}</p>
+                  <h3 className="mb-3 text-xl font-bold text-white tracking-wide">{f.title}</h3>
+                  <p className="text-sm font-medium leading-relaxed text-gray-400">{f.desc}</p>
                 </div>
               );
             })}
@@ -75,14 +75,14 @@ export default async function HomePage() {
 
       {/* Popular Destinations */}
       {destinations.length > 0 && (
-        <section className="bg-[#F5F5F5] py-24">
+        <section className="bg-[#0A0A0A] py-32 border-b border-[#2A2A2A]">
           <div className="mx-auto max-w-7xl px-6">
-            <div className="mb-12 text-center">
-              <span className="mb-4 inline-block rounded-full bg-[#C10016]/10 px-4 py-1.5 text-xs font-semibold tracking-wider text-[#C10016] uppercase">
-                Explore
+            <div className="mb-20 text-center">
+              <span className="mb-4 inline-block rounded-full bg-[#C10016]/10 border border-[#C10016]/30 px-4 py-1.5 text-xs font-bold tracking-widest text-[#C10016] uppercase">
+                Explore Destinations
               </span>
-              <h2 className="text-4xl font-bold text-[#1E1E1E] md:text-5xl">
-                Popular Destinations
+              <h2 className="text-4xl font-black text-white md:text-5xl tracking-tight">
+                Popular Routes
               </h2>
             </div>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -98,23 +98,24 @@ export default async function HomePage() {
       <LoyaltySection />
 
       {/* CTA */}
-      <section className="bg-gradient-to-br from-[#C10016] to-[#8B0000] py-24 text-center">
-        <div className="mx-auto max-w-3xl px-6">
-          <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
-            Ready to Fly?
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#1E0000] to-[#0A0A0A] py-32 text-center border-t border-[#2A2A2A]">
+        <div className="absolute inset-0 bg-[#C10016]/5 bg-[radial-gradient(#C10016_1px,transparent_1px)] [background-size:20px_20px] opacity-20 pointer-events-none" />
+        <div className="mx-auto max-w-3xl px-6 relative z-10">
+          <h2 className="mb-8 text-5xl font-black text-white md:text-6xl tracking-tight leading-tight">
+            Ready to <span className="text-[#C10016]">Fly?</span>
           </h2>
-          <p className="mb-10 text-lg text-white/80">
+          <p className="mb-12 text-xl font-medium text-gray-300 leading-relaxed">
             Book your next adventure with Sky-Pass and experience the difference
             of premium air travel.
           </p>
           <a
             href="/flights"
-            className="inline-block rounded-full bg-white px-10 py-4 text-sm font-bold text-[#C10016] shadow-2xl transition-all hover:bg-gray-100"
+            className="inline-block rounded-full bg-[#C10016] px-12 py-4 text-base font-bold text-white shadow-lg shadow-red-900/40 transition-all hover:bg-[#A0001F] hover:shadow-2xl hover:scale-105"
           >
             Search Flights
           </a>
         </div>
       </section>
-    </>
+    </div>
   );
 }

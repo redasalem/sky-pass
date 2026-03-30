@@ -35,6 +35,7 @@ export async function createStripeCheckoutSession(input: {
   flightId: string;
   passengers: number;
   passenger: PassengerDetails;
+  cabinClass: "Economy" | "Business" | "First";
   userId: string;
   origin: string;
 }) {
@@ -61,7 +62,8 @@ export async function createStripeCheckoutSession(input: {
   const pricing = calculateDynamicPrice(
     flight.priceInCents,
     input.passengers,
-    flight.departureTime
+    flight.departureTime,
+    input.cabinClass
   );
 
   const bookingSession: BookingSession = {
@@ -121,6 +123,7 @@ export async function createStripeCheckoutSession(input: {
         passengerEmail: input.passenger.email,
         passengerPhone: input.passenger.phone || "",
         passportNumber: input.passenger.passportNumber || "",
+        cabinClass: input.cabinClass,
         totalPriceInCents: String(bookingSession.totalPriceInCents),
         surchargeLabel: pricing.surchargeLabel,
       },

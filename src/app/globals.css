@@ -2,19 +2,23 @@
 
 :root {
   --sky-red: #C10016;
-  --sky-dark: #1E1E1E;
-  --sky-light: #F5F5F5;
-  --sky-white: #FFFFFF;
+  --sky-bg: #0A0A0A;
+  --sky-card: #1A1A1A;
+  --sky-border: #2A2A2A;
+  --sky-text: #FFFFFF;
+  --sky-text-secondary: #A0A0A0;
+  --sky-success: #22C55E;
+  --sky-warning: #F59E0B;
 }
 
 body {
-  background: var(--sky-light);
-  color: var(--sky-dark);
+  background: var(--sky-bg);
+  color: var(--sky-text);
 }
 
 .app-shell {
   min-height: 100vh;
-  background: var(--sky-light);
+  background: var(--sky-bg);
 }
 
 .section-shell {
@@ -27,18 +31,42 @@ body {
 .primary-button {
   border-radius: 9999px;
   background: var(--sky-red);
-  color: var(--sky-white);
-  transition: background-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+  color: #FFFFFF;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  transition: all 300ms ease;
 }
 
 .primary-button:hover {
-  background: #a00012;
+  background: #A0001F;
+  box-shadow: 0 10px 15px -3px rgba(153, 0, 0, 0.3);
+}
+
+.outline-button {
+  border-radius: 9999px;
+  border: 1px solid var(--sky-red);
+  color: var(--sky-red);
+  background: transparent;
+  padding: 0.75rem 2rem;
+  font-weight: 600;
+  transition: all 300ms ease;
+}
+
+.outline-button:hover {
+  background: var(--sky-red);
+  color: #FFFFFF;
 }
 
 .surface-card {
-  border-radius: 1.5rem;
-  background: var(--sky-white);
-  box-shadow: 0 16px 40px rgba(30, 30, 30, 0.08);
+  border-radius: 1rem;
+  background: var(--sky-card);
+  border: 1px solid var(--sky-border);
+  transition: all 300ms ease;
+}
+
+.surface-card:hover {
+  border-color: var(--sky-red);
+  transform: scale(1.02);
 }
 
 /* Smooth scroll */
@@ -52,11 +80,11 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--sky-light);
+  background: var(--sky-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: #333;
   border-radius: 4px;
 }
 
@@ -77,9 +105,9 @@ html {
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--sky-light) 25%,
-    #e0e0e0 50%,
-    var(--sky-light) 75%
+    var(--sky-card) 25%,
+    var(--sky-border) 50%,
+    var(--sky-card) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
