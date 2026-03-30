@@ -21,10 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
-        {/* Always wrap with ClerkProvider to ensure hooks like useUser can be used during prerender.
-            Provide a safe fallback publishable key to avoid build-time errors when the real key
-            is not set in the environment. In production, set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY. */}
-        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || "clerk.publishable.test"}>
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
           <div className="app-shell">
             <Navbar />
             <main className="min-h-screen">{children}</main>
