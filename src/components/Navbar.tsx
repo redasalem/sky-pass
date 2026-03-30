@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Plane } from "lucide-react";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { UserButton, useUser, useAuth } from "@clerk/nextjs";
 
 const NAV_LINKS = [
   { label: "Flights", href: "/flights" },
@@ -16,7 +16,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useAuth();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -87,7 +87,9 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-6 md:flex">
-          {!isSignedIn ? (
+          {!isLoaded ? (
+            <div className="h-9 w-9 animate-pulse rounded-full bg-[#2A2A2A]" />
+          ) : !isSignedIn ? (
             <Link href="/sign-in" className="primary-button text-sm">
               Sign In
             </Link>
@@ -137,7 +139,11 @@ export default function Navbar() {
              )
           })}
           
-          {isSignedIn ? (
+          {!isLoaded ? (
+            <div className="mt-4 pt-4 border-t border-[#2A2A2A]">
+              <div className="h-10 w-10 animate-pulse rounded-full bg-[#2A2A2A]" />
+            </div>
+          ) : isSignedIn ? (
             <div className="mt-4 pt-4 border-t border-[#2A2A2A]">
                <Link
                 href="/my-bookings"
