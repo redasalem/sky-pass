@@ -32,4 +32,16 @@ export default defineType({
     defineField({ name: "emailSent", type: "boolean", initialValue: false }),
     defineField({ name: "createdAt", type: "datetime", validation: (r) => r.required() }),
   ],
+  preview: {
+    select: {
+      title: "bookingReference",
+      subtitle: "passenger.firstName",
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: title || "No Reference",
+        subtitle: subtitle ? `${subtitle}'s booking` : "No passenger",
+      };
+    },
+  },
 });
