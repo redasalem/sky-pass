@@ -186,7 +186,7 @@ export default function BookingFlow() {
               <button
                 onClick={() => setStep(2)}
                 disabled={!form.firstName || !form.lastName || !form.email}
-                className="primary-button mt-10 w-full py-4 text-sm font-bold tracking-wider disabled:cursor-not-allowed disabled:opacity-50"
+                className="primary-button mt-10 w-full text-sm font-bold tracking-wider disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Continue to Review
               </button>
@@ -264,7 +264,7 @@ export default function BookingFlow() {
                 <button
                   onClick={handleCheckout}
                   disabled={loading}
-                  className="primary-button w-full sm:w-2/3 py-4 text-sm tracking-wide shadow-lg shadow-red-900/20 disabled:opacity-50"
+                  className="primary-button w-full sm:w-2/3 text-sm tracking-wide shadow-lg shadow-red-900/20 disabled:opacity-50"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">

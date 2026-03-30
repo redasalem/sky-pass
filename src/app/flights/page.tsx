@@ -182,7 +182,7 @@ export default async function FlightsPage(props: FlightsPageProps) {
                 </select>
               </div>
               
-              <button className="primary-button w-full py-3.5 text-sm mt-4 tracking-wide">
+              <button className="primary-button w-full text-sm mt-4 tracking-wide">
                 Apply Filters
               </button>
             </form>

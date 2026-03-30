@@ -103,9 +103,9 @@ export default function LoyaltySection() {
 
                   <Link
                     href="/sign-up"
-                    className={`w-full block text-center rounded-full py-3.5 text-sm font-bold transition-all ${
+                    className={`w-full block text-center rounded-full py-4 px-8 text-sm font-bold transition-all ${
                       tier.featured
-                        ? "bg-[#C10016] text-white hover:bg-[#a00012] shadow-lg shadow-red-900/40"
+                        ? "primary-button shadow-lg shadow-red-900/40"
                         : "bg-[#2A2A2A] text-white hover:bg-[#333]"
                     }`}
                   >

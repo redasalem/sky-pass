@@ -112,7 +112,7 @@ export default function FlightCard({ flight, passengers = 1 }: FlightCardProps) 
         </div>
         <Link
           href={`/booking?flight=${flight._id}&passengers=${passengers}&class=${selectedClass}`}
-          className="primary-button px-8 py-3 text-sm font-bold shadow-lg shadow-red-900/20"
+          className="primary-button text-sm shadow-lg shadow-red-900/20"
         >
           Book Now
         </Link>

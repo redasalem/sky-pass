@@ -267,7 +267,7 @@ export default function SearchWidget() {
       <button
         type="button"
         onClick={handleSearch}
-        className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#C10016] py-3.5 text-sm font-bold text-white shadow-lg shadow-red-900/30 transition-all hover:bg-[#A0001F]"
+        className="primary-button mt-6 flex w-full items-center justify-center gap-2 text-sm shadow-lg shadow-red-900/30"
       >
         <Search className="h-4 w-4" />
         Search Flights

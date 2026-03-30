@@ -23,7 +23,7 @@ const darkAppearance = {
     formFieldInput: "bg-[#0A0A0A] border-[#2A2A2A] focus:border-[#C10016] rounded-xl text-white transition-colors",
     footerActionText: "text-gray-400 text-sm font-medium",
     footerActionLink: "text-[#C10016] font-bold hover:text-[#A0001F] transition-colors",
-    formButtonPrimary: "bg-[#C10016] hover:bg-[#A0001F] rounded-full shadow-lg shadow-red-900/30 font-bold transition-colors py-3"
+    formButtonPrimary: "bg-[#C10016] hover:bg-[#A0001F] rounded-full shadow-lg shadow-red-900/30 font-bold transition-colors py-4"
   }
 } as any;
 

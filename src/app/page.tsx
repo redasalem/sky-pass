@@ -110,7 +110,7 @@ export default async function HomePage() {
           </p>
           <a
             href="/flights"
-            className="inline-block rounded-full bg-[#C10016] px-12 py-4 text-base font-bold text-white shadow-lg shadow-red-900/40 transition-all hover:bg-[#A0001F] hover:shadow-2xl hover:scale-105"
+            className="primary-button inline-block text-base shadow-lg shadow-red-900/40 hover:shadow-2xl hover:scale-105"
           >
             Search Flights
           </a>

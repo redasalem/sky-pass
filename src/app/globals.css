@@ -32,7 +32,7 @@ body {
   border-radius: 9999px;
   background: var(--sky-red);
   color: #FFFFFF;
-  padding: 0.75rem 2rem;
+  padding: 1rem 2.5rem;
   font-weight: 600;
   transition: all 300ms ease;
 }
@@ -47,7 +47,7 @@ body {
   border: 1px solid var(--sky-red);
   color: var(--sky-red);
   background: transparent;
-  padding: 0.75rem 2rem;
+  padding: 1rem 2.5rem;
   font-weight: 600;
   transition: all 300ms ease;
 }
